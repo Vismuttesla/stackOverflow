@@ -1,13 +1,11 @@
 package com.example.demo.config;
 
-import com.example.demo.dto.CustomUserDetails;
 import com.example.demo.service.Impl.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -25,15 +23,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private final BCryptPasswordEncoder passwordEncoder;
     private final CustomUserDetailsService userDetailsService;
 
-    public AuthorizationServerConfig(AuthenticationManager authenticationManager, BCryptPasswordEncoder passwordEncoder,
-                                     CustomUserDetailsService userDetailsService) {
+    public AuthorizationServerConfig(AuthenticationManager authenticationManager, BCryptPasswordEncoder passwordEncoder, CustomUserDetailsService userDetailsService) {
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.userDetailsService = userDetailsService;
     }
 
     @Value("${spring.security.oauth2.resourceserve.jwt.signing-key}")
-  private String jwtSigningKey;
+    private String jwtSigningKey;
 
     @Override // endpoint bu URL da bu o'shani configuratsiyasi
     //ya'ni kirib kelib tokenni  qana qilib olib ketish kerak,
@@ -44,18 +41,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void
 
     configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore())
-                 .accessTokenConverter(accessTokenConverter())
-                .authenticationManager(authenticationManager)
-                .userDetailsService(userDetailsService);    }
+        endpoints.tokenStore(tokenStore()).
+                accessTokenConverter(accessTokenConverter())
+                .authenticationManager(authenticationManager).userDetailsService(userDetailsService);
+    }
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory().withClient("web")
-                .secret(passwordEncoder.encode("Yy5jruBmmWTjDDj6"))
+        clients.inMemory().withClient("web").
+                secret(passwordEncoder.encode("Yy5jruBmmWTjDDj6"))
                 .authorizedGrantTypes("password", "refresh_token")
-                .scopes("read", "write")
-                .resourceIds("api");
+                .scopes("read", "write").resourceIds("api");
     }
 
     @Bean
@@ -64,9 +60,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     @Bean
-    public JwtAccessTokenConverter accessTokenConverter()
-
-    {
+    public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setSigningKey(jwtSigningKey);
         return converter;// java obyektni tokennga aylantiradigan konverter

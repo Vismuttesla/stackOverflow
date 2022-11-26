@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
   @EnableJpaAuditing
 @EnableJpaRepositories(repositoryBaseClass = BaseRepositoryImpl.class)//bu
 // qatorni sizni repositoryizni boshqa barcha repositorylarga qo'shadi degani
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class DemoApplication implements CommandLineRunner
 {
   private  final PasswordEncoder passwordEncoder;
