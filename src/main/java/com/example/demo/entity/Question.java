@@ -19,7 +19,7 @@ public class Question extends BaseEntity {
     private String description;
 
     private Long viewCount;
-
+      private Long voteCount;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(inverseJoinColumns = {@JoinColumn(name = "tag_id")})
     private Set<Tag> tags;
